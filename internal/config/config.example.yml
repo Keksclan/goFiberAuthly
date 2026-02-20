@@ -1,0 +1,18 @@
+# goConfy config template – values use {ENV:KEY:default} macro syntax.
+# ENV variables override the defaults specified after the second colon.
+# Copy this file to the repo root as config.yml and adjust as needed.
+
+server:
+  port: "{ENV:SERVER_PORT:8080}"
+  read_timeout: 10s
+  write_timeout: 10s
+  idle_timeout: 60s
+
+auth:
+  issuer: "{ENV:AUTH_ISSUER:https://auth.example.com}"
+  audience: "{ENV:AUTH_AUDIENCE:*}"
+  jwks_url: "{ENV:AUTH_JWKS_URL:https://auth.example.com/.well-known/jwks.json}"
+  introspection_url: "{ENV:AUTH_INTROSPECTION_URL:https://auth.example.com/oauth2/introspect}"
+  client_id: "{ENV:AUTH_CLIENT_ID:my-service}"
+  client_secret: "{ENV:AUTH_CLIENT_SECRET:supersecret}"
+  required_headers: "{ENV:AUTH_REQUIRED_HEADERS:x-user-sub}"

@@ -1,0 +1,36 @@
+# ── Build artifacts ──────────────────────────────────────────────
+/bin/
+/dist/
+/build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# ── Test / coverage ─────────────────────────────────────────────
+*.test
+*.out
+coverage*.out
+
+# ── Runtime config & secrets ─────────────────────────────────────
+.env
+.env.*
+config.yml
+
+# Keep the example YAML tracked
+!internal/config/config.example.yml
+
+# ── OS files ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE / editor ─────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Logs ─────────────────────────────────────────────────────────
+*.log
