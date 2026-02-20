@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 	"strings"
 	"time"
@@ -21,6 +22,7 @@ type ServerConfig struct {
 	ReadTimeout  time.Duration `yaml:"read_timeout"`
 	WriteTimeout time.Duration `yaml:"write_timeout"`
 	IdleTimeout  time.Duration `yaml:"idle_timeout"`
+	LogLevel     string        `yaml:"log_level"`
 }
 
 // AuthConfig holds authentication/authorization settings.
@@ -68,7 +70,24 @@ func (c *Config) Validate() error {
 	if c.Server.IdleTimeout == 0 {
 		c.Server.IdleTimeout = 60 * time.Second
 	}
+	if c.Server.LogLevel == "" {
+		c.Server.LogLevel = "info"
+	}
 	return nil
+}
+
+// SlogLevel returns the slog.Level corresponding to the configured log_level string.
+func (c *ServerConfig) SlogLevel() slog.Level {
+	switch strings.ToLower(c.LogLevel) {
+	case "debug":
+		return slog.LevelDebug
+	case "warn", "warning":
+		return slog.LevelWarn
+	case "error":
+		return slog.LevelError
+	default:
+		return slog.LevelInfo
+	}
 }
 
 // Load reads config via goConfy from YAML file with ENV macro expansion.
@@ -88,6 +107,21 @@ func Load(configPath string) (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("load config: %w", err)
 	}
+
+	slog.Debug("config loaded",
+		"config_path", configPath,
+		"port", cfg.Server.Port,
+		"log_level", cfg.Server.LogLevel,
+		"read_timeout", cfg.Server.ReadTimeout.String(),
+		"write_timeout", cfg.Server.WriteTimeout.String(),
+		"idle_timeout", cfg.Server.IdleTimeout.String(),
+		"auth_issuer", cfg.Auth.Issuer,
+		"auth_audience", cfg.Auth.Audience,
+		"auth_jwks_url", cfg.Auth.JWKSURL,
+		"auth_introspection_url", cfg.Auth.IntrospectionURL,
+		"auth_client_id", cfg.Auth.ClientID,
+		"auth_required_headers", cfg.Auth.RequiredHeaders,
+	)
 
 	return &cfg, nil
 }

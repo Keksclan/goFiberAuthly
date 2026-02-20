@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"log/slog"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
 )
@@ -12,6 +14,9 @@ func RequestID() fiber.Handler {
 		rid := c.Get("X-Request-Id")
 		if rid == "" {
 			rid = uuid.New().String()
+			slog.Debug("generated request id", "request_id", rid)
+		} else {
+			slog.Debug("using provided request id", "request_id", rid)
 		}
 		c.Locals("requestid", rid)
 		c.Set("X-Request-Id", rid)

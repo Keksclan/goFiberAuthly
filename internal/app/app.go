@@ -22,10 +22,14 @@ type Application struct {
 // New creates and configures the Application.
 // It initializes the goAuthly Engine based on the provided config and sets up routes.
 func New(cfg *config.Config) (*Application, error) {
+	slog.Info("initializing goAuthly engine")
+
 	engine, err := buildAuthEngine(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("init goAuthly engine: %w", err)
 	}
+
+	slog.Info("goAuthly engine initialized successfully")
 
 	app := &Application{
 		Config: cfg,
@@ -37,6 +41,12 @@ func New(cfg *config.Config) (*Application, error) {
 		WriteTimeout: cfg.Server.WriteTimeout,
 		IdleTimeout:  cfg.Server.IdleTimeout,
 	})
+
+	slog.Info("fiber app created",
+		"read_timeout", cfg.Server.ReadTimeout.String(),
+		"write_timeout", cfg.Server.WriteTimeout.String(),
+		"idle_timeout", cfg.Server.IdleTimeout.String(),
+	)
 
 	apphttp.SetupRoutes(fiberApp, engine, cfg, &app.Ready)
 	app.Fiber = fiberApp
@@ -62,8 +72,19 @@ func buildAuthEngine(cfg *config.Config) (*authly.Engine, error) {
 		oauth2Mode = authly.OAuth2OpaqueOnly
 	}
 
+	slog.Info("oauth2 mode determined",
+		"mode", fmt.Sprintf("%v", oauth2Mode),
+		"has_jwks", cfg.Auth.HasJWKS(),
+		"has_introspection", cfg.Auth.HasIntrospection(),
+	)
+
 	// Build audience string for goAuthly.
 	audience := cfg.Auth.Audience
+
+	slog.Info("audience config",
+		"audience", audience,
+		"is_wildcard", cfg.Auth.AudienceIsWildcard(),
+	)
 
 	// Build introspection auth if client credentials are provided.
 	var introAuth authly.ClientAuth
@@ -73,6 +94,11 @@ func buildAuthEngine(cfg *config.Config) (*authly.Engine, error) {
 			ClientID:     cfg.Auth.ClientID,
 			ClientSecret: cfg.Auth.ClientSecret,
 		}
+		slog.Info("introspection auth configured",
+			"client_id", cfg.Auth.ClientID,
+		)
+	} else {
+		slog.Info("no introspection client credentials configured")
 	}
 
 	authlyCfg := authly.Config{
@@ -88,6 +114,14 @@ func buildAuthEngine(cfg *config.Config) (*authly.Engine, error) {
 			},
 		},
 	}
+
+	slog.Debug("goAuthly config built",
+		"auth_mode", "oauth2",
+		"oauth2_mode", fmt.Sprintf("%v", oauth2Mode),
+		"issuer", cfg.Auth.Issuer,
+		"jwks_url", cfg.Auth.JWKSURL,
+		"introspection_url", cfg.Auth.IntrospectionURL,
+	)
 
 	return authly.New(authlyCfg)
 }

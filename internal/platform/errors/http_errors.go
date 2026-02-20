@@ -1,6 +1,10 @@
 package errors
 
-import "github.com/gofiber/fiber/v3"
+import (
+	"log/slog"
+
+	"github.com/gofiber/fiber/v3"
+)
 
 // Standard error codes used in JSON error responses.
 const (
@@ -23,6 +27,13 @@ type ErrorResponse struct {
 // NewUnauthorized returns a 401 JSON error response.
 func NewUnauthorized(c fiber.Ctx, code, message string) error {
 	reqID, _ := c.Locals("requestid").(string)
+	slog.Warn("http error: unauthorized",
+		"code", code,
+		"message", message,
+		"method", c.Method(),
+		"path", c.Path(),
+		"request_id", reqID,
+	)
 	return c.Status(fiber.StatusUnauthorized).JSON(ErrorResponse{
 		Error:     CodeUnauthorized,
 		Code:      code,
@@ -34,6 +45,13 @@ func NewUnauthorized(c fiber.Ctx, code, message string) error {
 // NewForbidden returns a 403 JSON error response.
 func NewForbidden(c fiber.Ctx, code, message string) error {
 	reqID, _ := c.Locals("requestid").(string)
+	slog.Warn("http error: forbidden",
+		"code", code,
+		"message", message,
+		"method", c.Method(),
+		"path", c.Path(),
+		"request_id", reqID,
+	)
 	return c.Status(fiber.StatusForbidden).JSON(ErrorResponse{
 		Error:     CodeForbidden,
 		Code:      code,
@@ -45,6 +63,13 @@ func NewForbidden(c fiber.Ctx, code, message string) error {
 // NewBadRequest returns a 400 JSON error response.
 func NewBadRequest(c fiber.Ctx, code, message string) error {
 	reqID, _ := c.Locals("requestid").(string)
+	slog.Warn("http error: bad request",
+		"code", code,
+		"message", message,
+		"method", c.Method(),
+		"path", c.Path(),
+		"request_id", reqID,
+	)
 	return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
 		Error:     "bad_request",
 		Code:      code,
