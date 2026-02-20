@@ -5,7 +5,7 @@ go 1.26
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4
 	github.com/google/uuid v1.6.0
-	github.com/keksclan/goAuthly v0.0.1
+	github.com/keksclan/goAuthly v0.0.2
 	github.com/keksclan/goConfy v0.0.0-20260219113305-c5ff4088b917
 )
 

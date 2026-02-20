@@ -27,8 +27,8 @@ github.com/golang-jwt/jwt/v5 v5.3.1 h1:kYf81DTWFe7t+1VvL7eS+jKFVWaUnK9cB1qbwn63Y
 github.com/golang-jwt/jwt/v5 v5.3.1/go.mod h1:fxCRLWMO43lRc8nhHWY6LGqRcf+1gQWArsqaEUEa5bE=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/keksclan/goAuthly v0.0.1 h1:Nv3ay8CpGchzqtl9PnSvzY/dmhy61E2aMpO6/XdQbZE=
-github.com/keksclan/goAuthly v0.0.1/go.mod h1:Pqrfka6eS5vsj6ntFMBSdDax8rYRURE6F6XlTTO63lw=
+github.com/keksclan/goAuthly v0.0.2 h1:9Ei1jhElHJ6gCowCF3rK2RbK7XSKElpAknSGZeIJkDc=
+github.com/keksclan/goAuthly v0.0.2/go.mod h1:Pqrfka6eS5vsj6ntFMBSdDax8rYRURE6F6XlTTO63lw=
 github.com/keksclan/goConfy v0.0.0-20260219113305-c5ff4088b917 h1:7uj9j7r6j0umKQWESkYw4ylvBQDqPsHXLodwAnWhskY=
 github.com/keksclan/goConfy v0.0.0-20260219113305-c5ff4088b917/go.mod h1:eoyAICCgjkO98xjf2z2VRTSkKDroUqaByBHPPXlj23k=
 github.com/klauspost/compress v1.18.2 h1:iiPHWW0YrcFgpBYhsA6D1+fqHssJscY/Tm/y2Uqnapk=
