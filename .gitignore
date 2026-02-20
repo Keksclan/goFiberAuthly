@@ -16,6 +16,7 @@ coverage*.out
 # ── Runtime config & secrets ─────────────────────────────────────
 .env
 .env.*
+!.env.example
 config.yml
 
 # Keep the example YAML tracked
