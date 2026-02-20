@@ -17,7 +17,7 @@ coverage*.out
 .env
 .env.*
 !.env.example
-config.yml
+!config.yml
 
 # Keep the example YAML tracked
 !internal/config/config.example.yml

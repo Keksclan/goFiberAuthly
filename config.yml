@@ -1,0 +1,14 @@
+server:
+  port: "{ENV:SERVER_PORT:8080}"
+  read_timeout: 10s
+  write_timeout: 10s
+  idle_timeout: 60s
+
+auth:
+  issuer: "{ENV:AUTH_ISSUER:}"
+  audience: "{ENV:AUTH_AUDIENCE:*}"
+  jwks_url: "{ENV:AUTH_JWKS_URL:}"
+  introspection_url: "{ENV:AUTH_INTROSPECTION_URL:}"
+  client_id: "{ENV:AUTH_CLIENT_ID:}"
+  client_secret: "{ENV:AUTH_CLIENT_SECRET:}"
+  required_headers: "{ENV:AUTH_REQUIRED_HEADERS:}"
